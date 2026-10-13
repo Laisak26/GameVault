@@ -1,4 +1,4 @@
-<th:block th:replace="~{layout/base :: layout(~{::title}, ~{::main})}">
+<th:block th:replace="~{layout/base :: layout(~{::title}, ~{::main})}" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <title>Catálogo de Juegos - GameVault</title>
 
@@ -10,6 +10,32 @@
             <a th:href="@{/juegos/nuevo}" class="btn btn-primary">
                 + Nuevo Juego
             </a>
+        </div>
+
+        <!-- Barra de busqueda -->
+        <div style="margin-bottom: 30px;">
+
+            <form action="/juegos" method="get" style="display: flex; gap: 10px;">
+
+                <input type="text"
+                       name="buscar"
+                       th:value="${busquedaActual}"
+                       placeholder="Buscar juego por título..."
+                       class="form-control"
+                       style="flex: 1;">
+
+                <button type="submit" class="btn btn-primary">
+                    Buscar
+                </button>
+
+                <a th:href="@{/juegos}"
+                   class="btn"
+                   style="background: var(--bg-panel); color: white;">
+                    Limpiar
+                </a>
+
+            </form>
+
         </div>
 
         <div class="grid">
