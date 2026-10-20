@@ -14,13 +14,18 @@
                 Sube la información y la portada de un nuevo juego a la bóveda.
             </p>
 
-            <form th:action="@{/juegos}" method="post" enctype="multipart/form-data">
+            <form th:action="${juego != null} ?
+                    @{/juegos/editar/{id}(id=${juego.id})} :
+                    @{/juegos}"
+                  method="post"
+                  enctype="multipart/form-data">
 
                 <div class="form-group">
                     <label for="titulo" class="form-label">Título del Juego</label>
                     <input type="text"
                            id="titulo"
                            name="titulo"
+                           th:value="${juego != null ? juego.titulo : ''}"
                            required
                            class="form-control">
                 </div>
@@ -35,7 +40,31 @@
                               rows="4"
                               required
                               class="form-control"
-                              style="resize: vertical;"></textarea>
+                              style="resize: vertical;"
+                              th:text="${juego != null ? juego.descripcion : ''}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="precio" class="form-label">Precio</label>
+
+                    <input type="number"
+                           id="precio"
+                           name="precio"
+                           step="0.01"
+                           th:value="${juego != null ? juego.precio : ''}"
+                           required
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria" class="form-label">Categoría</label>
+
+                    <input type="text"
+                           id="categoria"
+                           name="categoria"
+                           th:value="${juego != null ? juego.categoria : ''}"
+                           required
+                           class="form-control">
                 </div>
 
                 <div class="form-group"
@@ -51,7 +80,7 @@
                            id="portada"
                            name="portada"
                            accept="image/*"
-                           required
+                           th:required="${juego == null}"
                            class="form-control"
                            style="border: none; background: transparent;">
 

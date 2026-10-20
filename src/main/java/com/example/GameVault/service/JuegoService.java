@@ -24,6 +24,18 @@ public class JuegoService {
         return juegoRepository.findAll();
     }
 
+    public List<Juego> obtenerJuegosPorUsuario(Long usuarioId) {
+        return juegoRepository.findByUsuarioId(usuarioId);
+    }
+
+    public Juego obtenerJuegoPorId(Long id) {
+        return juegoRepository.findById(id).orElse(null);
+    }
+
+    public void eliminarJuego(Long id) {
+        juegoRepository.deleteById(id);
+    }
+
     public List<Juego> buscarPorTitulo(String palabra) {
         if (palabra == null || palabra.trim().isEmpty()) {
             return obtenerTodos();
@@ -33,15 +45,14 @@ public class JuegoService {
     }
 
     public void guardarJuego(Juego juego, MultipartFile portada) {
-        String nombreArchivo = "default.png";
 
-        if (!portada.isEmpty()) {
-            nombreArchivo = guardarImagenLocal(portada);
-            // Cloudinary
-            // Storage de firebase
+        if (portada != null && !portada.isEmpty()) {
+            String nombreArchivo = guardarImagenLocal(portada);
+            juego.setPortadaUrl(nombreArchivo);
+        } else if (juego.getPortadaUrl() == null || juego.getPortadaUrl().isEmpty()) {
+            juego.setPortadaUrl("default.png");
         }
 
-        juego.setPortadaUrl(nombreArchivo);
         juegoRepository.save(juego);
     }
 
